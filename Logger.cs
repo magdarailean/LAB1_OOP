@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 
 class Logger
 {
@@ -31,67 +30,83 @@ class Logger
             return;
         }
 
-        StringBuilder output = new StringBuilder();
+        string output = "";
         string time = DateTime.Now.ToString("HH:mm:ss");
-        string? randomMessage = null;
+        string randomMessage = "";
 
         // Read only the format: inserted names and messages stay literal.
         for (int i = 0; i < Format.Length; i++)
         {
             if (Format[i] == '%' && i + 1 < Format.Length)
             {
-                string? replacement = Format[i + 1] switch
+                string replacement = "";
+                char token = Format[i + 1];
+                if (token == 't')
                 {
-                    't' => time,
-                    'm' => message,
-                    'n' => name,
-                    'l' => msgLevel.ToString(),
-                    'r' => randomMessage ??= GetRandomMessage(msgLevel),
-                    _ => null
-                };
-
-                if (replacement != null)
+                    replacement = time;
+                }
+                else if (token == 'm')
                 {
-                    output.Append(replacement);
-                    i++;
+                    replacement = message;
+                }
+                else if (token == 'n')
+                {
+                    replacement = name;
+                }
+                else if (token == 'l')
+                {
+                    replacement = msgLevel.ToString();
+                }
+                else if (token == 'r')
+                {
+                    // Choose once so repeated %r tokens use the same phrase.
+                    if (randomMessage == "")
+                    {
+                        randomMessage = GetRandomMessage(msgLevel);
+                    }
+                    replacement = randomMessage;
+                }
+                else
+                {
+                    output += Format[i];
                     continue;
                 }
+
+                output += replacement;
+                i++;
+                continue;
             }
 
-            output.Append(Format[i]);
+            output += Format[i];
         }
 
-        Console.WriteLine(output.ToString());
+        Console.WriteLine(output);
     }
 
-    // Extra credit: random message for each log level.
+    // random message for each log level.
     private static string GetRandomMessage(LogLevel level)
     {
-        string[] messages = level switch
+        string[] messages;
+        if (level == LogLevel.TRACE)
         {
-            LogLevel.TRACE => new[]
-            {
-                "Checking input",
-                "Processing character"
-            },
-            LogLevel.INFO => new[]
-            {
-                "Operation completed",
-                "Everything looks good",
-                "Here is your result"
-            },
-            LogLevel.WARN => new[]
-            {
-                "Check this situation",
-                "Something unexpected happened"
-            },
-            LogLevel.ERROR => new[]
-            {
-                "Operation failed",
-                "Invalid input detected"
-            },
-            _ => new[] { "Unknown level" }
-        };
+            messages = new string[] { "Checking input", "Processing character" };
+        }
+        else if (level == LogLevel.INFO)
+        {
+            messages = new string[] { "Operation completed", "Everything looks good", "Here is your result" };
+        }
+        else if (level == LogLevel.WARN)
+        {
+            messages = new string[] { "Check this situation", "Something unexpected happened" };
+        }
+        else if (level == LogLevel.ERROR)
+        {
+            messages = new string[] { "Operation failed", "Invalid input detected" };
+        }
+        else
+        {
+            messages = new string[] { "Unknown level" };
+        }
 
         return messages[Random.Shared.Next(messages.Length)];
     }
