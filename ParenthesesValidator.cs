@@ -1,14 +1,15 @@
 class ParenthesesValidator
 {
-    private readonly Logger logger = new Logger("Parentheses");
-
+    private readonly Logger logger = new Logger("");
+    
     public bool IsValid(string input)
     {
         int balance = 0;
         bool valid = true;
 
-        foreach (char character in input)
+        for (int i = 0; i < input.Length; i++)
         {
+            char character = input[i];
             if (character == '(')
             {
                 balance++;
@@ -19,6 +20,9 @@ class ParenthesesValidator
             {
                 if (balance == 0)
                 {
+                    // int remainder = input.Length - i;
+                    // Console.WriteLine($"Remainder:{remainder}");
+                        
                     logger.Log(LogLevel.WARN,
                         "Closing parenthesis has no match");
 
