@@ -3,7 +3,17 @@ using System;
 class Program
 {
     static void Main()
-    {   Logger.SetLevel(LogLevel.TRACE);
+    {   
+        Formatter formatatorMesaje = new Formatter();
+
+        Formatter.Format = "%n: %m";
+        Console.WriteLine(formatatorMesaje.FormatLine("Parentheses", LogLevel.INFO, "Whatever %n"));
+
+        Formatter.Format = "[%l] %m";
+        Console.WriteLine(formatatorMesaje.FormatLine("Parentheses", LogLevel.INFO, "Why %n"));
+        
+        
+        Logger.SetLevel(LogLevel.TRACE);
         Logger.SetFormat("[%t] [%l] %n: %m");
         ParenthesesValidator validator = new ParenthesesValidator();
         Console.Write("The Parentheses: ");
