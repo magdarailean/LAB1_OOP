@@ -15,16 +15,22 @@ class DisplayManager
 
         logger.Log(LogLevel.TRACE, $"Manager {name} created");
     }
-
-    public DisplayManager(string name)
+    
+    public int DisplayCount
     {
-        this.name = name;
+        get { return assignedDisplays.Count; }
     }
+    
 
     public void AssignDisplay(Display display)
     {
         assignedDisplays.Add(display);
         logger.Log(LogLevel.TRACE, $"{display.Model} assigned to {name}");
+    }
+    
+    public bool HasDisplay(Display display)
+    {
+        return assignedDisplays.Contains(display);
     }
 
     public void Assist()

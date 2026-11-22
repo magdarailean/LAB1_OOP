@@ -27,18 +27,24 @@ class Program
         Logger shopLogger = new Logger("Shop", shopFormatter, shopSink);
         Logger managerLogger = new Logger("Manager", shopFormatter, shopSink);
 
-        // T1.4
         CommandReader reader = new CommandReader(shopLogger);
-        string path = Path.Combine(AppContext.BaseDirectory, "mondayshop.txt");
-        string[] lines = reader.Read(path);
+        string[] files = { "shop-monday.txt", "shop-tuesday.txt", "shop-extra.txt" };
 
-        // T1.5
-        List<DisplayManager> managers = new List<DisplayManager>();
-        List<Display> displays = new List<Display>();
-
-        foreach (string line in lines)
+        foreach (string file in files)
         {
-            CommandParser.ParseCommand(line, managers, displays, shopLogger, managerLogger);
+            Console.WriteLine($"\n{file}");
+
+            string path = Path.Combine(AppContext.BaseDirectory, file);
+            string[] lines = reader.Read(path);
+
+            List<DisplayManager> managers = new List<DisplayManager>();
+            List<Display> displays = new List<Display>();
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                CommandParser.ParseCommand(lines[i], managers, displays,
+                    shopLogger, managerLogger, i + 1);
+            }
         }
     }
 }
