@@ -3,13 +3,23 @@ using System;
 class Logger
 {
     private readonly string name;
+    private readonly Formatter formatter;
+    private readonly ConsoleSink sink;
 
     public static LogLevel Level = LogLevel.INFO;
-    public static string Format = "[%t] [%l] %n: %m";
 
     public Logger(string name)
     {
         this.name = name;
+        formatter = new Formatter();
+        sink = new ConsoleSink();
+    }
+
+    public Logger(string name, Formatter formatter, ConsoleSink sink)
+    {
+        this.name = name;
+        this.formatter = formatter;
+        this.sink = sink;
     }
 
     public static void SetLevel(LogLevel newLevel)
@@ -17,17 +27,12 @@ class Logger
         Level = newLevel;
     }
 
-    public static void SetFormat(string newFormat)
-    {
-        Format = newFormat;
-    }
-
     public void Log(LogLevel msgLevel, string message)
     {
-        // Do not print messages below the configured level.
         if (msgLevel < Level)
-        {
             return;
-        }
+
+        string line = formatter.FormatLine(name, msgLevel, message);
+        sink.Write(line);
     }
 }

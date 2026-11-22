@@ -14,7 +14,7 @@ class Program
         
         
         Logger.SetLevel(LogLevel.TRACE);
-        Logger.SetFormat("[%t] [%l] %n: %m");
+        Formatter.Format = "[%t] [%l] %n: %m";
         ParenthesesValidator validator = new ParenthesesValidator();
         Console.Write("The Parentheses: ");
         var input = Console.ReadLine();
