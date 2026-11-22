@@ -20,5 +20,14 @@ class Program
         var input = Console.ReadLine();
         if (input != null)
             Console.WriteLine(validator.IsValid(input));
+        
+        
+        Display dell = new Display("Dell", 3840, 2160, 163f);
+        Display lg = new Display("LG", 2560, 1440, 108.8f);
+        Display samsung = new Display("Samsung", 2560, 1440, 93f);
+
+        Console.WriteLine(samsung.CompareWithMonitor(lg));
+        Console.WriteLine(dell.CompareWithMonitor(samsung));
+        
     }
 }

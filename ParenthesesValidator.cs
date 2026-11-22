@@ -1,6 +1,6 @@
 class ParenthesesValidator
 {
-    private readonly Logger logger = new Logger("");
+    private readonly Logger logger = new Logger("Parentheses");
     
     public bool IsValid(string input)
     {
