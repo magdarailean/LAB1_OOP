@@ -5,6 +5,16 @@ class DisplayManager
 {
     private string name;
     private List<Display> assignedDisplays = new List<Display>();
+    
+    private Logger logger;
+
+    public DisplayManager(string name, Logger logger)
+    {
+        this.name = name;
+        this.logger = logger;
+
+        logger.Log(LogLevel.TRACE, $"Manager {name} created");
+    }
 
     public DisplayManager(string name)
     {
@@ -14,6 +24,7 @@ class DisplayManager
     public void AssignDisplay(Display display)
     {
         assignedDisplays.Add(display);
+        logger.Log(LogLevel.TRACE, $"{display.Model} assigned to {name}");
     }
 
     public void Assist()
@@ -30,9 +41,17 @@ class DisplayManager
 
     public Display? BuyDisplay(Display display)
     {
-        if (assignedDisplays.Remove(display))
-            return display;
+        if (!assignedDisplays.Remove(display))
+        {
+            logger.Log(LogLevel.ERROR, $"{name} does not have {display.Model}");
+            return null;
+        }
 
-        return null;
+        logger.Log(LogLevel.INFO, $"{name} sold {display.Model}");
+
+        if (assignedDisplays.Count == 0)
+            logger.Log(LogLevel.WARN, $"{name} has no displays left");
+
+        return display;
     }
 }

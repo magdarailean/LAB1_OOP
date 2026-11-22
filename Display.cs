@@ -2,7 +2,7 @@ using System;
 
 class Display
 {
-    private string model;
+    public string Model { get; private set; }
     private int width;
     private int height;
     private float ppi;
@@ -10,7 +10,7 @@ class Display
 
     public Display(string model, int width, int height, float ppi)
     {
-        this.model = model;
+        Model = model;
         this.width = width;
         this.height = height;
         this.ppi = ppi;
@@ -64,6 +64,6 @@ class Display
         else if (sharpness < 0)
             sharpnessResult = "less sharp";
 
-        return $"{model} ({Diagonal()} in) vs {other.model} ({other.Diagonal()} in): {sizeResult} and {sharpnessResult}.";
+        return $"{Model} ({Diagonal()} in) vs {other.Model} ({other.Diagonal()} in): {sizeResult} and {sharpnessResult}.";
     }
 }
