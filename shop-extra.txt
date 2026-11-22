@@ -1,0 +1,9 @@
+MANAGER Dana
+DISPLAY Screen-A 1920 1080 100
+DISPLAY Screen-B 1920 1080 100
+ASSIGN Screen-A Dana
+ASSIGN Screen-B Dana
+ASSIST Dana
+COMPARE Screen-A Missing
+ASSIST Missing
+BUY Screen-A Dana
