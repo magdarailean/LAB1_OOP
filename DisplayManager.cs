@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 class DisplayManager
 {
-    private string name;
+    public string name { get; private set; }
     private List<Display> assignedDisplays = new List<Display>();
     
     private Logger logger;
